@@ -1,0 +1,443 @@
+version: 2
+
+sources:
+  - name: raw
+    tables:
+      - name: parcel_shapes_2025
+        columns:
+          - name: parcel_id
+            data_type: text
+          - name: geometry
+            data_type: text
+
+      - name: realtor__for_rent
+        columns:
+          - name: property_url
+            data_type: text
+          - name: property_id
+            data_type: text
+          - name: listing_id
+            data_type: text
+          - name: permalink
+            data_type: text
+          - name: mls
+            data_type: text
+          - name: mls_id
+            data_type: text
+          - name: status
+            data_type: text
+          - name: mls_status
+            data_type: text
+          - name: style
+            data_type: text
+          - name: formatted_address
+            data_type: text
+          - name: full_street_line
+            data_type: text
+          - name: street
+            data_type: text
+          - name: unit
+            data_type: text
+          - name: city
+            data_type: text
+          - name: state
+            data_type: text
+          - name: zip_code
+            data_type: text
+          - name: beds
+            data_type: double precision
+          - name: full_baths
+            data_type: double precision
+          - name: half_baths
+            data_type: double precision
+          - name: sqft
+            data_type: double precision
+          - name: year_built
+            data_type: double precision
+          - name: days_on_mls
+            data_type: double precision
+          - name: list_price
+            data_type: double precision
+          - name: list_price_min
+            data_type: double precision
+          - name: list_price_max
+            data_type: double precision
+          - name: list_date
+            data_type: text
+          - name: pending_date
+            data_type: text
+          - name: sold_price
+            data_type: double precision
+          - name: last_sold_date
+            data_type: text
+          - name: last_sold_price
+            data_type: double precision
+          - name: last_status_change_date
+            data_type: text
+          - name: last_update_date
+            data_type: timestamp without time zone
+          - name: assessed_value
+            data_type: text
+          - name: estimated_value
+            data_type: double precision
+          - name: tax
+            data_type: text
+          - name: tax_history
+            data_type: text
+          - name: new_construction
+            data_type: bigint
+          - name: lot_sqft
+            data_type: double precision
+          - name: price_per_sqft
+            data_type: double precision
+          - name: latitude
+            data_type: double precision
+          - name: longitude
+            data_type: double precision
+          - name: neighborhoods
+            data_type: text
+          - name: county
+            data_type: text
+          - name: fips_code
+            data_type: text
+          - name: stories
+            data_type: double precision
+          - name: hoa_fee
+            data_type: double precision
+          - name: parking_garage
+            data_type: double precision
+          - name: agent_id
+            data_type: text
+          - name: agent_name
+            data_type: text
+          - name: agent_email
+            data_type: text
+          - name: agent_mls_set
+            data_type: text
+          - name: agent_nrds_id
+            data_type: text
+          - name: broker_id
+            data_type: text
+          - name: broker_name
+            data_type: text
+          - name: builder_id
+            data_type: text
+          - name: builder_name
+            data_type: text
+          - name: office_id
+            data_type: text
+          - name: office_mls_set
+            data_type: text
+          - name: office_name
+            data_type: text
+          - name: office_email
+            data_type: text
+          - name: nearby_schools
+            data_type: text
+
+      - name: realtor__sold
+        columns:
+          - name: property_url
+            data_type: text
+          - name: property_id
+            data_type: text
+          - name: listing_id
+            data_type: text
+          - name: permalink
+            data_type: text
+          - name: mls
+            data_type: text
+          - name: mls_id
+            data_type: text
+          - name: status
+            data_type: text
+          - name: mls_status
+            data_type: text
+          - name: style
+            data_type: text
+          - name: formatted_address
+            data_type: text
+          - name: full_street_line
+            data_type: text
+          - name: street
+            data_type: text
+          - name: unit
+            data_type: text
+          - name: city
+            data_type: text
+          - name: state
+            data_type: text
+          - name: zip_code
+            data_type: text
+          - name: beds
+            data_type: double precision
+          - name: full_baths
+            data_type: double precision
+          - name: half_baths
+            data_type: double precision
+          - name: sqft
+            data_type: double precision
+          - name: year_built
+            data_type: double precision
+          - name: days_on_mls
+            data_type: double precision
+          - name: list_price
+            data_type: double precision
+          - name: list_price_min
+            data_type: text
+          - name: list_price_max
+            data_type: text
+          - name: list_date
+            data_type: text
+          - name: pending_date
+            data_type: text
+          - name: sold_price
+            data_type: bigint
+          - name: last_sold_date
+            data_type: text
+          - name: last_sold_price
+            data_type: bigint
+          - name: last_status_change_date
+            data_type: text
+          - name: last_update_date
+            data_type: date
+          - name: assessed_value
+            data_type: text
+          - name: estimated_value
+            data_type: double precision
+          - name: tax
+            data_type: text
+          - name: tax_history
+            data_type: text
+          - name: new_construction
+            data_type: bigint
+          - name: lot_sqft
+            data_type: double precision
+          - name: price_per_sqft
+            data_type: double precision
+          - name: latitude
+            data_type: double precision
+          - name: longitude
+            data_type: double precision
+          - name: neighborhoods
+            data_type: text
+          - name: county
+            data_type: text
+          - name: fips_code
+            data_type: text
+          - name: stories
+            data_type: double precision
+          - name: hoa_fee
+            data_type: double precision
+          - name: parking_garage
+            data_type: double precision
+          - name: agent_id
+            data_type: text
+          - name: agent_name
+            data_type: text
+          - name: agent_email
+            data_type: text
+          - name: agent_mls_set
+            data_type: text
+          - name: agent_nrds_id
+            data_type: text
+          - name: broker_id
+            data_type: text
+          - name: broker_name
+            data_type: text
+          - name: builder_id
+            data_type: text
+          - name: builder_name
+            data_type: text
+          - name: office_id
+            data_type: text
+          - name: office_mls_set
+            data_type: text
+          - name: office_name
+            data_type: text
+          - name: office_email
+            data_type: text
+          - name: nearby_schools
+            data_type: text
+
+      - name: stream__building_permits_sfh
+        columns:
+          - name: address_id
+            data_type: text
+          - name: parcel_id
+            data_type: text
+          - name: situs_address
+            data_type: text
+          - name: parcel_id_long
+            data_type: text
+          - name: geometry
+            data_type: text
+          - name: case_id
+            data_type: text
+          - name: case_number
+            data_type: text
+          - name: case_type_id
+            data_type: text
+          - name: case_type
+            data_type: text
+          - name: case_workclass_id
+            data_type: text
+          - name: case_workclass
+            data_type: text
+          - name: case_status_id
+            data_type: text
+          - name: case_status
+            data_type: text
+          - name: project_name
+            data_type: text
+          - name: issue_date
+            data_type: text
+          - name: apply_date
+            data_type: text
+          - name: expire_date
+            data_type: text
+          - name: final_date
+            data_type: text
+          - name: main_parcel
+            data_type: text
+          - name: description
+            data_type: text
+          - name: country_type_id
+            data_type: bigint
+          - name: country_type_name
+            data_type: text
+          - name: country_name
+            data_type: text
+          - name: street_type_name
+            data_type: text
+          - name: pre_direction
+            data_type: text
+          - name: post_direction
+            data_type: text
+          - name: address_line1
+            data_type: text
+          - name: address_line2
+            data_type: text
+          - name: address_line3
+            data_type: text
+          - name: address_type_name
+            data_type: text
+          - name: unit_or_suite
+            data_type: text
+          - name: city
+            data_type: text
+          - name: state_name
+            data_type: text
+          - name: province_name
+            data_type: text
+          - name: rural_route
+            data_type: text
+          - name: p_o_box
+            data_type: text
+          - name: station
+            data_type: text
+          - name: comp_site
+            data_type: text
+          - name: a_t_t_n
+            data_type: text
+          - name: postal_code
+            data_type: text
+          - name: is_main
+            data_type: bigint
+          - name: full_address
+            data_type: text
+          - name: join_address
+            data_type: text
+          - name: geometry_geojson
+            data_type: text
+
+      - name: stream__demo_permits_sfh
+        columns:
+          - name: address_id
+            data_type: text
+          - name: parcel_id
+            data_type: text
+          - name: situs_address
+            data_type: text
+          - name: parcel_id_long
+            data_type: text
+          - name: geometry
+            data_type: text
+          - name: case_id
+            data_type: text
+          - name: case_number
+            data_type: text
+          - name: case_type_id
+            data_type: text
+          - name: case_type
+            data_type: text
+          - name: case_workclass_id
+            data_type: text
+          - name: case_workclass
+            data_type: text
+          - name: case_status_id
+            data_type: text
+          - name: case_status
+            data_type: text
+          - name: project_name
+            data_type: text
+          - name: issue_date
+            data_type: text
+          - name: apply_date
+            data_type: text
+          - name: expire_date
+            data_type: text
+          - name: final_date
+            data_type: text
+          - name: main_parcel
+            data_type: text
+          - name: description
+            data_type: text
+          - name: country_type_id
+            data_type: double precision
+          - name: country_type_name
+            data_type: text
+          - name: country_name
+            data_type: text
+          - name: street_type_name
+            data_type: text
+          - name: pre_direction
+            data_type: text
+          - name: post_direction
+            data_type: text
+          - name: address_line1
+            data_type: text
+          - name: address_line2
+            data_type: text
+          - name: address_line3
+            data_type: text
+          - name: address_type_name
+            data_type: text
+          - name: unit_or_suite
+            data_type: text
+          - name: city
+            data_type: text
+          - name: state_name
+            data_type: text
+          - name: province_name
+            data_type: text
+          - name: rural_route
+            data_type: text
+          - name: p_o_box
+            data_type: text
+          - name: station
+            data_type: text
+          - name: comp_site
+            data_type: text
+          - name: a_t_t_n
+            data_type: text
+          - name: postal_code
+            data_type: text
+          - name: is_main
+            data_type: double precision
+          - name: full_address
+            data_type: text
+          - name: join_address
+            data_type: text
+          - name: geometry_geojson
+            data_type: text
