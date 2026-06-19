@@ -1,6 +1,7 @@
 bigfootpy/
 dbt_bigfoot/dbt_project.yml
 jobs/.env
+jobs/service_key.json
 logs/
 cron.log
 **/__pycache__/
