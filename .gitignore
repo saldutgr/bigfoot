@@ -7,3 +7,4 @@ cron.log
 jobs/tmp/*
 !jobs/tmp
 .vscode
+jobs/service_key.json
