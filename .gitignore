@@ -1,0 +1,9 @@
+bigfootpy/
+dbt_bigfoot/dbt_project.yml
+jobs/.env
+logs/
+cron.log
+**/__pycache__/
+jobs/tmp/*
+!jobs/tmp
+.vscode
