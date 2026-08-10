@@ -26,10 +26,10 @@ def get_here_data():
 
     data['geometry'] = data.apply(lambda x: explode_street_links(x), axis=1)
 
-    data = pd.concat([data, 
+    """data = pd.concat([data, 
            pd.json_normalize(data.explode('currentFlow.subSegments')['currentFlow.subSegments'])],
            axis=1)
-
+           """
 
     data.loc[:, 'data_queried_at'] = Timestamp('now')
 
