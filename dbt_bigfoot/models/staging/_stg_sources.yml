@@ -441,3 +441,6 @@ sources:
             data_type: text
           - name: geometry_geojson
             data_type: text
+            
+      - name: stream__rental_permits
+      - name: parcel_attributes_2025
