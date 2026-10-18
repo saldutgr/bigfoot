@@ -2,12 +2,34 @@ from dotenv import load_dotenv
 import os
 import sqlalchemy
 import pandas as pd
-
+import sshtunnel
+import paramiko
 load_dotenv()
 
 def postgres_engine():
     engine = sqlalchemy.create_engine(f"postgresql://{os.getenv('USER')}:{os.getenv('PASS')}@{os.getenv('HOST')}:{os.getenv('port')}/{os.getenv('database')}")
     con = engine.connect()
+    return con
+
+def mysql_engine(schema):
+    
+    sshtunnel.SSH_TIMEOUT = 90
+    sshtunnel.TUNNEL_TIMEOUT = 90
+
+    from sshtunnel import SSHTunnelForwarder
+    import pandas
+
+    # SSH configuration
+    server = SSHTunnelForwarder(
+        ('ssh.pythonanywhere.com'),
+        ssh_username=os.getenv('pyMysql_USER'),
+        ssh_password=os.getenv('pymysql_PASS'),
+        remote_bind_address=(f'{os.getenv("pyMysql_USER")}.mysql.pythonanywhere-services.com', 3306)
+    )
+    server.start()
+    engine = sqlalchemy.create_engine(f"mysql+pymysql://{os.getenv('pyMysql_USER')}:{os.getenv('pyMysql_DBPASS')}@127.0.0.1:{server.local_bind_port}/saldutgr${schema}")
+    con = engine.connect()
+ 
     return con
 
 def query_last_updated(table_name, 

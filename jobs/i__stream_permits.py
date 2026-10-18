@@ -1,16 +1,17 @@
+#! /home/trafficbot/Projects/bigfoot/bigfootpy/bin/python3
 from config import stream_dicts
 import os
 from dotenv import load_dotenv # type: ignore
 import re
 
 from utils.stream_utils import scrape_stream_permits, normalize_stream_permits
-from utils.database_utils import postgres_engine
+from utils.database_utils import postgres_engine, mysql_engine
 
 load_dotenv()
 
 def load_to_db(df, table, schema):
-    con = postgres_engine()
-    df.to_sql(table, con, schema=schema, if_exists='replace', index=False)
+    con = mysql_engine('raw')
+    df.to_sql(table, con, schema=None, if_exists='replace', index=False)
     con.close()
 
 def run_sfh_bldg_pipeline():
