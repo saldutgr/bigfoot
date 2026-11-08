@@ -1,8 +1,13 @@
-from utils.database_utils import backup_table
+import utils.dropbox_utils
+from utils.dropbox_utils import backup_table, clear_dropbox_folder, connect_to_dropbox
 
 from dotenv import load_dotenv
+
 def backup_tables_to_dropbox():
+    #clear existing files and upload new
     
+    clear_dropbox_folder('/real_estate_data')
+
     backup_table("realtor__sold", 
                     'raw',
                     'realtor_sold',
@@ -15,4 +20,5 @@ def backup_tables_to_dropbox():
     
 if __name__ == "__main__":
     load_dotenv()
+    #clear_dropbox_folder('/real_estate_data')
     backup_tables_to_dropbox()
