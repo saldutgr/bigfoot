@@ -1,5 +1,5 @@
 from dotenv import load_dotenv
-
+import os
 load_dotenv()
 
 def connect_to_dropbox():
@@ -78,6 +78,7 @@ def batch_backup(
     import pyarrow as pa
     import pyarrow.parquet as pq
     import dropbox
+    import os
     from dropbox.files import UploadSessionCursor, CommitInfo, WriteMode
 
     from utils.database_utils import postgres_engine
@@ -164,7 +165,12 @@ def clear_dropbox_folder(dropbox_folder):
     """
     Clears all files in the specified Dropbox folder.
     """
+    import dropbox
+    import os
+    from dotenv import load_dotenv
+
     dbx = connect_to_dropbox()
+    
     try:
         result = dbx.files_list_folder(f"/{dropbox_folder}")
         for entry in result.entries:
