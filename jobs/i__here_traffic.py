@@ -12,7 +12,7 @@ from utils.here_utils import *
 load_dotenv()
 
 def load_to_db(df, table, schema, dtype=None):
-    con = postgres_engine()
+    engine, con = postgres_engine()
     df.to_sql(table, con, schema=schema, if_exists='append', index=False, dtype=dtype)
     con.close()
 

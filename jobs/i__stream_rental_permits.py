@@ -37,7 +37,7 @@ def scrape_stream_rental_permits():
     return df_unnest
 
 def load_to_db(df, table, schema):
-    con = postgres_engine()
+    engine, con = postgres_engine()
     df.to_sql(table, con, schema=schema, if_exists='overwrite', index=False)
     con.close()
 

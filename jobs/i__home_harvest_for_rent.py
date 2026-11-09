@@ -5,7 +5,7 @@ from utils.database_utils import query_last_updated, postgres_engine
 
 def scrape_for_rent():
 
-    con = postgres_engine()
+    engine, con = postgres_engine()
 
     df = scrape_property(
         location="Ann Arbor, MI",
@@ -32,7 +32,7 @@ def scrape_for_rent():
 
 
 def load_to_db(df, table, schema):
-    con = postgres_engine()
+    engine, con = postgres_engine()
     df.to_sql(table, con, schema=schema, if_exists='append', index=False)
     con.close()
 
