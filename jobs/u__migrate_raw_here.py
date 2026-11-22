@@ -106,6 +106,7 @@ def main():
                 "currentFlow.jamTendency",
                 "currentFlow.subSegments",
                 data_queried_at
+                    AT TIME ZONE 'America/New_York' AS data_queried_at
             FROM {SOURCE_TABLE}
         """))
 

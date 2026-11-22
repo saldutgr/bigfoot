@@ -59,11 +59,12 @@ if __name__ == "__main__":
         "here__traffic_flows",
         "raw",
         dtype={
+            "data_queried_at": sqlalchemy.types.DateTime(timezone=True),
             "location.shape.links": sqlalchemy.types.JSON,
             "currentFlow.subSegments": sqlalchemy.types.JSON,
         },
         port=args.port,
-        database=args.database,
+        database=os.getenv('database'),
     )
 
 
