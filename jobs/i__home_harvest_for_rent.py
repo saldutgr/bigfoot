@@ -1,11 +1,17 @@
+import argparse
+
 from homeharvest import scrape_property
 from pandas import Timestamp
-from utils.database_utils import query_last_updated, postgres_engine
+from utils.database_utils import (
+    add_postgres_arguments,
+    postgres_engine,
+    query_last_updated,
+)
 
 
-def scrape_for_rent():
+def scrape_for_rent(port=None, database=None):
 
-    engine, con = postgres_engine()
+    engine, con = postgres_engine(port=port, database=database)
 
     df = scrape_property(
         location="Ann Arbor, MI",
@@ -31,11 +37,20 @@ def scrape_for_rent():
     return df
 
 
-def load_to_db(df, table, schema):
-    engine, con = postgres_engine()
+def load_to_db(df, table, schema, port=None, database=None):
+    engine, con = postgres_engine(port=port, database=database)
     df.to_sql(table, con, schema=schema, if_exists='append', index=False)
     con.close()
 
 if __name__ == "__main__":
-    df = scrape_for_rent()
-    load_to_db(df, 'realtor__for_rent', 'raw')
+    parser = add_postgres_arguments(argparse.ArgumentParser())
+    args = parser.parse_args()
+
+    df = scrape_for_rent(port=args.port, database=args.database)
+    load_to_db(
+        df,
+        'realtor__for_rent',
+        'raw',
+        port=args.port,
+        database=args.database,
+    )

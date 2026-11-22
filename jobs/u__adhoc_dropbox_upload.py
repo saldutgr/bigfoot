@@ -1,7 +1,10 @@
-from utils.database_utils import backup_table, batch_backup
 import argparse
 
+from utils.database_utils import add_postgres_arguments
+from utils.dropbox_utils import backup_table, batch_backup
+
 parser = argparse.ArgumentParser()
+add_postgres_arguments(parser)
 
 parser.add_argument('-t', '--table_name', type=str, required=True, help='Name of the table to backup')
 parser.add_argument('-s', '--schema_name', type=str, required=True, help='Name of the schema')
@@ -20,4 +23,6 @@ if __name__ == '__main__':
         args.dropbox_file, 
         args.dropbox_folder, 
         where=args.where,
-        zip=args.zip)
+        zip=args.zip,
+        port=args.port,
+        database=args.database)

@@ -25,7 +25,9 @@ def backup_table(table_name,
                  schema_name,
                  dropbox_file,
                  dropbox_folder,
-                 where=None):
+                 where=None,
+                 port=None,
+                 database=None):
     """
     Queries table from postgres and writes to parquet format local.
     Returned object can be used as input for dropbox upload
@@ -40,7 +42,7 @@ def backup_table(table_name,
 
     from utils.database_utils import postgres_engine
     
-    engine, con = postgres_engine()
+    engine, con = postgres_engine(port=port, database=database)
 
     if where is None:
         QUERY = f"SELECT * FROM {schema_name}.{table_name}"
@@ -69,7 +71,9 @@ def batch_backup(
     dropbox_file,
     dropbox_folder,
     where=None,
-    zip="False"):
+    zip="False",
+    port=None,
+    database=None):
     """
     Queries table from postgres and writes to parquet format local.
     Returned object can be used as input for dropbox upload
@@ -88,7 +92,7 @@ def batch_backup(
     dropbox_path = f"/{dropbox_folder}/{today}_{dropbox_file}.parquet"
     tmp_file = f"tmp/{today}_{dropbox_file}.parquet"
 
-    engine, con = postgres_engine()
+    engine, con = postgres_engine(port=port, database=database)
 
     if where is None:
         query = text(f"SELECT * FROM {schema_name}.{table_name}")
