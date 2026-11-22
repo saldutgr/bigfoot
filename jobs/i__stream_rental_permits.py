@@ -1,7 +1,8 @@
+import argparse
 import requests
 import json
 import pandas as pd
-from utils.database_utils import postgres_engine
+from utils.database_utils import add_postgres_arguments, postgres_engine
 
 def scrape_stream_rental_permits():
     with open("config/stream_headers_rental.json", 'r') as f:
@@ -36,11 +37,19 @@ def scrape_stream_rental_permits():
 
     return df_unnest
 
-def load_to_db(df, table, schema):
-    engine, con = postgres_engine()
+def load_to_db(df, table, schema, port=None, database=None):
+    engine, con = postgres_engine(port=port, database=database)
     df.to_sql(table, con, schema=schema, if_exists='overwrite', index=False)
     con.close()
 
 if __name__ == "__main__":
+    parser = add_postgres_arguments(argparse.ArgumentParser())
+    args = parser.parse_args()
     df = scrape_stream_rental_permits()
-    load_to_db(df, 'stream__rental_permits', 'raw')
+    load_to_db(
+        df,
+        'stream__rental_permits',
+        'raw',
+        port=args.port,
+        database=args.database,
+    )

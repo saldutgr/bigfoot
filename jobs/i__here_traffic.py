@@ -1,46 +1,72 @@
-import geopandas as gpd
-import pandas as pd
+import argparse
 import os
-import json
-from pandas import Timestamp
-from dotenv import load_dotenv
-import sqlalchemy
+from uuid import uuid4
 
-from utils.database_utils import postgres_engine
-from utils.here_utils import *
+import pandas as pd
+import sqlalchemy
+from dotenv import load_dotenv
+from pandas import Timestamp
+
+from utils.database_utils import add_postgres_arguments, postgres_engine
+from utils.here_utils import get_traffic_data
 
 load_dotenv()
 
-def load_to_db(df, table, schema, dtype=None):
-    engine, con = postgres_engine()
+TARGET_COLUMNS = [
+    "row_id",
+    "data_queried_at",
+    "location.description",
+    "location.length",
+    "location.shape.links",
+    "currentFlow.speed",
+    "currentFlow.speedUncapped",
+    "currentFlow.freeFlow",
+    "currentFlow.jamFactor",
+    "currentFlow.confidence",
+    "currentFlow.traversability",
+    "currentFlow.junctionTraversability",
+    "currentFlow.jamTendency",
+    "currentFlow.subSegments",
+]
+
+
+def load_to_db(df, table, schema, dtype=None, port=None, database=None):
+    engine, con = postgres_engine(port=port, database=database)
     df.to_sql(table, con, schema=schema, if_exists='append', index=False, dtype=dtype)
     con.close()
 
 def get_here_data():
     bbox = "-83.806746,42.224879,-83.670074,42.327828"
-    api_key = os.getenv('HERE_API')
+    api_key = os.getenv("HERE_API")
 
-    data = get_traffic_data(bbox, api_key)
+    response = get_traffic_data(bbox, api_key)
+    data = pd.json_normalize(response["results"])
 
-    data  = pd.json_normalize(data['results'])
+    queried_at = Timestamp.now(tz="UTC")
+    data["data_queried_at"] = queried_at
+    data["row_id"] = [
+        f"{queried_at.isoformat()}-{uuid4()}"
+        for _ in range(len(data))
+    ]
 
-    data['geometry'] = data.apply(lambda x: explode_street_links(x), axis=1)
+    return data.reindex(columns=TARGET_COLUMNS)
 
-    """data = pd.concat([data, 
-           pd.json_normalize(data.explode('currentFlow.subSegments')['currentFlow.subSegments'])],
-           axis=1)
-           """
-
-    data.loc[:, 'data_queried_at'] = Timestamp('now')
-
-    return data
 
 if __name__ == "__main__":
+    parser = add_postgres_arguments(argparse.ArgumentParser())
+    args = parser.parse_args()
     df = get_here_data()
-    
-    load_to_db(df, 'here__traffic_flows', 'raw', dtype={'location.shape.links': sqlalchemy.types.JSON,
-                                                        'currentFlow.subSegments': sqlalchemy.types.JSON,
-                                                        'geometry': sqlalchemy.types.VARCHAR})
 
+    load_to_db(
+        df,
+        "here__traffic_flows",
+        "raw",
+        dtype={
+            "location.shape.links": sqlalchemy.types.JSON,
+            "currentFlow.subSegments": sqlalchemy.types.JSON,
+        },
+        port=args.port,
+        database=args.database,
+    )
 
 

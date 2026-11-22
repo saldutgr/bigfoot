@@ -3,12 +3,37 @@ import os
 import sqlalchemy
 import pandas as pd
 from datetime import date
+import argparse
 
 load_dotenv()
 
-def postgres_engine():
+def add_postgres_arguments(parser):
+    parser.add_argument(
+        "--port",
+        type=int,
+        default=None,
+        help="PostgreSQL port (defaults to the port in .env)",
+    )
+    parser.add_argument(
+        "--database",
+        default=None,
+        help="PostgreSQL database (defaults to the database in .env)",
+    )
+    return parser
 
-    engine = sqlalchemy.create_engine(f"postgresql+psycopg2://{os.getenv('USER')}:{os.getenv('PASS')}@{os.getenv('HOST')}:{os.getenv('port')}/{os.getenv('database')}")
+
+def postgres_engine(port=None, database=None):
+    load_dotenv()
+
+    port = port or os.getenv("port")
+    database = database or os.getenv("database")
+
+    engine = sqlalchemy.create_engine(
+        "postgresql+psycopg2://"
+        f"{os.getenv('USER')}:{os.getenv('PASS')}"
+        f"@{os.getenv('HOST')}:{port}/{database}"
+    )
+
     con = engine.connect()
     return engine, con
 
