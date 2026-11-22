@@ -44,10 +44,7 @@ def get_here_data():
 
     queried_at = Timestamp.now(tz="UTC")
     data["data_queried_at"] = queried_at
-    data["row_id"] = [
-        f"{queried_at.isoformat()}-{uuid4()}"
-        for _ in range(len(data))
-    ]
+    data["row_id"] = [str(uuid4()) for _ in range(len(data))]
 
     return data.reindex(columns=TARGET_COLUMNS)
 
